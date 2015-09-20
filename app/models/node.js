@@ -4,4 +4,8 @@ export default class Node {
     this.left = left;
     this.right = right;
   }
+
+  get id() {
+    return this.value.toLowerCase().replace(/\s+/, '_');
+  }
 }
