@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+}
+
+pre {
+  margin: 0;
+  font-family: inherit;
+}
+
+.active-line {
+  color: red;
+}
+
+search-tree {
+  display: flex;
+}
+
+search-tree-program {
+  padding: 1em;
+}
+
+search-tree-viz {
+  padding: 1em 0;
+  flex-grow: 1;
+}
+
+search-tree-viz svg {
+  margin: 0 auto;
+  width: 98%;
+}
