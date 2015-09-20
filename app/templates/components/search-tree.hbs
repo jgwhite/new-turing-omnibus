@@ -23,8 +23,8 @@
 </pre>
 
 <form onsubmit={{action search value="target.elements.search.value"}}>
-  <input type="text" name="search" placeholder="Name">
-  <button>Run</button>
+  <input type="text" name="search" placeholder="Name" disabled={{searchState.name}}>
+  <button disabled={{searchState.name}}>Run</button>
 </form>
 </search-tree-program>
 
