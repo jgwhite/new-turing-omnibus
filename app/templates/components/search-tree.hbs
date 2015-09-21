@@ -5,13 +5,13 @@
 <span class="{{if (is-eq searchState.line  2) 'active-line'}}">2. <i>node</i> ← <i>top</i></span>
 <span class="{{if (is-eq searchState.line  3) 'active-line'}}">3. <b>repeat</b></span>
 <span class="{{if (is-eq searchState.line  4) 'active-line'}}">   1. <b>if</b> <i>item(node)</i> = <i>name</i></span>
-<span class="{{if (is-eq searchState.line  5) 'active-line'}}">         <b>then</b> <i>print</i> “Yes”;</span>
-<span class="{{if (is-eq searchState.line  6) 'active-line'}}">              <i>node</i> ← <i>nil</i>;</span>
-<span class="{{if (is-eq searchState.line  7) 'active-line'}}">              <i>found</i> ← <i>true</i>;</span>
+<span class="{{if (is-eq searchState.line  5) 'active-line'}}">          <b>then</b> <i>print</i> “Yes”;</span>
+<span class="{{if (is-eq searchState.line  6) 'active-line'}}">                  <i>node</i> ← <i>nil</i>;</span>
+<span class="{{if (is-eq searchState.line  7) 'active-line'}}">                  <i>found</i> ← <i>true</i>;</span>
 <span class="{{if (is-eq searchState.line  8) 'active-line'}}">   2. <b>if</b> <i>item(node)</i> &gt; <i>name</i></span>
-<span class="{{if (is-eq searchState.line  9) 'active-line'}}">         <b>then</b> <i>node</i> ← <i>left(node)</i>;</span>
+<span class="{{if (is-eq searchState.line  9) 'active-line'}}">          <b>then</b> <i>node</i> ← <i>left(node)</i>;</span>
 <span class="{{if (is-eq searchState.line 10) 'active-line'}}">   3. <b>if</b> <i>item(node)</i> &lt; <i>name</i></span>
-<span class="{{if (is-eq searchState.line 11) 'active-line'}}">         <b>then</b> <i>node</i> ← <i>right(node)</i>;</span>
+<span class="{{if (is-eq searchState.line 11) 'active-line'}}">          <b>then</b> <i>node</i> ← <i>right(node)</i>;</span>
 <span class="{{if (is-eq searchState.line 12) 'active-line'}}">4. <b>until</b> <i>node</i> = <i>nil</i></span>
 <span class="{{if (is-eq searchState.line 13) 'active-line'}}">5. <b>if not</b> <i>found</i></span>
 <span class="{{if (is-eq searchState.line 14) 'active-line'}}">      <b>then</b> <i>print</i> “No”;</span>
