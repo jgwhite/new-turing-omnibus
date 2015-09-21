@@ -1,12 +1,14 @@
 import Ember from 'ember';
+import Node from '../models/node';
 const { computed, run } = Ember;
 const BEAT = 1000;
 
 export default Ember.Component.extend({
   tagName: 'search-tree',
   searchState: null,
+  insertState: null,
 
-  src: computed('root', 'searchState.line', function() {
+  src: computed('root', 'searchState.line', 'insertState.line', function() {
     let node = this.get('root');
     let result = '';
 
@@ -138,10 +140,138 @@ export default Ember.Component.extend({
     this.set('searchState', null);
   },
 
+  insert(name) {
+    this.set('insertState', {
+      name,
+      x: null,
+      node: null,
+      line: 0,
+      ops: 0
+    });
+
+    run.later(this, 'stepInsert', 1, BEAT);
+
+    return false;
+  },
+
+  stepInsert(line) {
+    this.set('insertState.line', line);
+    this.incrementProperty('insertState.ops');
+
+    switch (line) {
+      case 1:
+        // node ← top
+        this.set('insertState.node', this.get('root'));
+        run.later(this, 'stepInsert', 2, BEAT);
+        break;
+      case 2:
+        // x ← new_node()
+        this.set('insertState.x', new Node('(empty)'));
+        run.later(this, 'stepInsert', 3, BEAT);
+        break;
+      case 3:
+        // item(x) ← name
+        this.set('insertState.x.value', this.get('insertState.name'));
+        run.later(this, 'stepInsert', 4, BEAT);
+        break;
+      case 4:
+        // repeat
+        run.later(this, 'stepInsert', 5, BEAT);
+        break;
+      case 5:
+        // if item(node) = name
+        if (this.get('insertState.node.value') === this.get('insertState.name')) {
+          run.later(this, 'stepInsert', 6, BEAT);
+        } else {
+          run.later(this, 'stepInsert', 7, BEAT);
+        }
+        break;
+      case 6:
+        // then node ← nil;
+        this.set('insertState.node', null);
+        run.later(this, 'stepInsert', 17, BEAT);
+        break;
+      case 7:
+        // if item(node) > name
+        if (this.get('insertState.node.value') > this.get('insertState.name')) {
+          run.later(this, 'stepInsert', 8, BEAT);
+        } else {
+          run.later(this, 'stepInsert', 12, BEAT);
+        }
+        break;
+      case 8:
+        // then if left(node) = nil
+        if (!this.get('insertState.node.left')) {
+          run.later(this, 'stepInsert', 9, BEAT);
+        } else {
+          run.later(this, 'stepInsert', 11, BEAT);
+        }
+        break;
+      case 9:
+        // then left(node) ← x;
+        this.set('insertState.node.left', this.get('insertState.x'));
+        run.later(this, 'stepInsert', 10, BEAT);
+        break;
+      case 10:
+        // node ← nil;
+        this.set('insertState.node', null);
+        run.later(this, 'stepInsert', 17, BEAT);
+        break;
+      case 11:
+        // else node ← left(node);
+        this.set('insertState.node', this.get('insertState.node.left'));
+        run.later(this, 'stepInsert', 17, BEAT);
+        break;
+      case 12:
+        // if item(node) < name
+        if (this.get('insertState.node.value') < this.get('insertState.name')) {
+          run.later(this, 'stepInsert', 13, BEAT);
+        } else {
+          run.later(this, 'stepInsert', 17, BEAT);
+        }
+        break;
+      case 13:
+        // then if right(node) = nil
+        if (!this.get('insertState.node.right')) {
+          run.later(this, 'stepInsert', 14, BEAT);
+        } else {
+          run.later(this, 'stepInsert', 16, BEAT);
+        }
+        break;
+      case 14:
+        // then right(node) ← x;
+        this.set('insertState.node.right', this.get('insertState.x'));
+        run.later(this, 'stepInsert', 15, BEAT);
+        break;
+      case 15:
+        // node ← nil;
+        this.set('insertState.node', null);
+        run.later(this, 'stepInsert', 17, BEAT);
+        break;
+      case 16:
+        // else node ← right(node);
+        this.set('insertState.node', this.get('insertState.node.right'));
+        run.later(this, 'stepInsert', 17, BEAT);
+        break;
+      case 17:
+        // until node = nil
+        if (!this.get('insertState.node')) {
+          run.later(this, 'endInsert', BEAT);
+        } else {
+          run.later(this, 'stepInsert', 4, BEAT);
+        }
+        break;
+    }
+  },
+
+  endInsert() {
+    this.set('insertState', null);
+  },
+
   drawNode(node, result) {
     let color = 'black';
 
-    if (this.get('searchState.node') === node) {
+    if (this.get('searchState.node') === node || this.get('insertState.node') === node) {
       color = 'red';
     }
 
