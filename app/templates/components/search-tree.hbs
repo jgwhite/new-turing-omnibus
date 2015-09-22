@@ -1,4 +1,4 @@
-<search-tree-programs>
+<search-tree-program>
 <label>
   Program:
   <select onchange={{action (mut program) value="target.value"}}>
@@ -10,14 +10,13 @@
 <label>
   Speed:
   <select onchange={{action (mut speed) value="target.value"}}>
-    <option value="fast" selected={{eq beat "fast"}}>Fast</option>
-    <option value="medium" selected={{eq beat "medium"}}>Medium</option>
-    <option value="slow" selected={{eq beat "slow"}}>Slow</option>
+    <option value="fast" selected={{eq speed "fast"}}>Fast</option>
+    <option value="medium" selected={{eq speed "medium"}}>Medium</option>
+    <option value="slow" selected={{eq speed "slow"}}>Slow</option>
   </select>
 </label>
 
 {{#if (eq program "SEARCH")}}
-<search-tree-program>
 <p>
   <form onsubmit={{action search value="target.elements.search.value"}}>
     <input
@@ -49,11 +48,9 @@
 <i>found</i> = <i>{{searchState.found}}</i>
 <i>node</i> = <i>{{searchState.node.value}}</i>
 </pre>
-</search-tree-program>
 {{/if}}
 
 {{#if (eq program "INSERT")}}
-<search-tree-program>
 <p>
   <form onsubmit={{action insert value="target.elements.name.value"}}>
     <input
@@ -88,9 +85,8 @@
 <i>node</i> = <i>{{insertState.node.value}}</i>
 <i>X</i> = <i>{{insertState.x.value}}</i>
 </pre>
-</search-tree-program>
 {{/if}}
-</search-tree-programs>
+</search-tree-program>
 
 <search-tree-viz>
   {{{svg}}}
