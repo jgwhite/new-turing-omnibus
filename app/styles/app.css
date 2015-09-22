@@ -16,17 +16,12 @@ search-tree {
 }
 
 search-tree-programs {
-  display: flex;
-  flex-grow: 1;
-}
-
-search-tree-program {
-  flex-grow: 1;
   padding: 1em;
+  min-width: 16em;
 }
 
 search-tree-viz {
-  flex-grow: 2;
+  flex-grow: 1;
   padding: 1em 0;
 }
 

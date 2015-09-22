@@ -1,8 +1,36 @@
 <search-tree-programs>
-  <search-tree-program>
-  <h4>SEARCH</h4>
+<label>
+  Program:
+  <select onchange={{action (mut program) value="target.value"}}>
+    <option value="SEARCH" selected={{eq program "SEARCH"}}>SEARCH</option>
+    <option value="INSERT" selected={{eq program "INSERT"}}>INSERT</option>
+  </select>
+</label>
+—
+<label>
+  Speed:
+  <select onchange={{action (mut speed) value="target.value"}}>
+    <option value="fast" selected={{eq beat "fast"}}>Fast</option>
+    <option value="medium" selected={{eq beat "medium"}}>Medium</option>
+    <option value="slow" selected={{eq beat "slow"}}>Slow</option>
+  </select>
+</label>
 
-  <pre><span class="{{if (is-eq searchState.line  1) 'active-line'}}">1. <i>found</i> ← <i>false</i></span>
+{{#if (eq program "SEARCH")}}
+<search-tree-program>
+<p>
+  <form onsubmit={{action search value="target.elements.search.value"}}>
+    <input
+      type="text"
+      name="search"
+      placeholder="Name"
+      value="{{searchState.name}}"
+      disabled={{searchState.name}}>
+    <button disabled={{searchState.name}}>Run</button>
+  </form>
+</p>
+
+<pre><span class="{{if (is-eq searchState.line  1) 'active-line'}}">1. <i>found</i> ← <i>false</i></span>
 <span class="{{if (is-eq searchState.line  2) 'active-line'}}">2. <i>node</i> ← <i>top</i></span>
 <span class="{{if (is-eq searchState.line  3) 'active-line'}}">3. <b>repeat</b></span>
 <span class="{{if (is-eq searchState.line  4) 'active-line'}}">   1. <b>if</b> <i>item(node)</i> = <i>name</i></span>
@@ -20,19 +48,25 @@
 <i>name</i> = <i>{{searchState.name}}</i>
 <i>found</i> = <i>{{searchState.found}}</i>
 <i>node</i> = <i>{{searchState.node.value}}</i>
+</pre>
+</search-tree-program>
+{{/if}}
 
-  </pre>
-
-  <form onsubmit={{action search value="target.elements.search.value"}}>
-    <input type="text" name="search" placeholder="Name" disabled={{searchState.name}}>
-    <button disabled={{searchState.name}}>Run</button>
+{{#if (eq program "INSERT")}}
+<search-tree-program>
+<p>
+  <form onsubmit={{action insert value="target.elements.name.value"}}>
+    <input
+      type="text"
+      name="name"
+      placeholder="Name"
+      value="{{insertState.name}}"
+      disabled={{insertState.name}}>
+    <button disabled={{insertState.name}}>Run</button>
   </form>
-  </search-tree-program>
+</p>
 
-  <search-tree-program>
-  <h4>INSERT</h4>
-
-  <pre><span class="{{if (is-eq insertState.line  1) 'active-line'}}">1. <i>node</i> ← <i>top</i></span>
+<pre><span class="{{if (is-eq insertState.line  1) 'active-line'}}">1. <i>node</i> ← <i>top</i></span>
 <span class="{{if (is-eq insertState.line  2) 'active-line'}}">2. <i>X</i> ← <i>new_node()</i></span>
 <span class="{{if (is-eq insertState.line  3) 'active-line'}}">3. <i>item(X)</i> ← <i>name</i></span>
 <span class="{{if (is-eq insertState.line  4) 'active-line'}}">4. <b>repeat</b></span>
@@ -53,14 +87,9 @@
 <i>name</i> = <i>{{insertState.name}}</i>
 <i>node</i> = <i>{{insertState.node.value}}</i>
 <i>X</i> = <i>{{insertState.x.value}}</i>
-
-  </pre>
-
-  <form onsubmit={{action insert value="target.elements.name.value"}}>
-    <input type="text" name="name" placeholder="Name" disabled={{insertState.name}}>
-    <button disabled={{insertState.name}}>Run</button>
-  </form>
-  </search-tree-program>
+</pre>
+</search-tree-program>
+{{/if}}
 </search-tree-programs>
 
 <search-tree-viz>
