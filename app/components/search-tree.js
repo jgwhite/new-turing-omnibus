@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import search from '../programs/search';
 import insert from '../programs/insert';
+import remove from '../programs/remove';
 const { Component, computed, run } = Ember;
 const SPEEDS = {
   fast: 100,
@@ -12,13 +13,14 @@ export default Component.extend({
   tagName: 'search-tree',
   searchState: null,
   insertState: null,
+  removeState: null,
   program: 'SEARCH',
   speed: 'fast',
   beat: computed('speed', function() {
     return SPEEDS[this.get('speed')];
   }),
 
-  src: computed('root', 'searchState.line', 'insertState.line', function() {
+  src: computed('root', 'searchState.line', 'insertState.line', 'removeState.line', function() {
     let node = this.get('root');
     let result = '';
 
@@ -84,12 +86,34 @@ export default Component.extend({
     this.set('insertState', null);
   },
 
+  remove(name) {
+    this.set('removeState', {
+      name,
+      x: null,
+      node: null,
+      line: 0
+    });
+
+    run.later(this, 'stepRemove', 1, this.get('beat'));
+
+    return false;
+  },
+
+  stepRemove(line) {
+    this.set('removeState.line', line);
+    remove.call(this);
+  },
+
+  endRemove() {
+    this.set('removeState', null);
+  },
+
   drawNode(node, result) {
     if (!node) { return result; }
 
     let color = 'black';
 
-    if (this.get('searchState.node') === node || this.get('insertState.node') === node) {
+    if (this.get('searchState.node') === node || this.get('insertState.node') === node || this.get('removeState.node') === node) {
       color = 'red';
     }
 
