@@ -5,6 +5,6 @@ module('Unit | Helper | eq');
 
 // Replace this with your real tests.
 test('it works', function(assert) {
-  var result = eq(42);
-  assert.ok(result);
+  assert.equal(eq([42, 42]), true);
+  assert.equal(eq([42, 40]), false);
 });
